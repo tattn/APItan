@@ -40,10 +40,8 @@ APItan.send(request: request) { result in
 }
 ```
 
-## In the future
-
+### Parallel
 ```swift
-// Parallel
 APItan.send(requests: [request1, request2, request3]) { results in
     // all done
     results.forEach { result in
@@ -55,7 +53,11 @@ APItan.send(requests: [request1, request2, request3]) { results in
         }
     }
 }
+```
 
+## In the future
+
+```swift
 // Series
 APItan.send(requests: [request1, request2, request3], isSeries: true) { results in
     // all done
