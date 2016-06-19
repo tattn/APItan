@@ -1,6 +1,6 @@
 # APItan: あぴたん(๑❛ᴗ❛๑)
 
-Lightweight API client in Swift
+Lightweight & Kawaii API client in Swift
 
 ## Installation
 
