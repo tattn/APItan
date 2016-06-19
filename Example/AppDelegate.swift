@@ -25,13 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let request = GetRequest()
-        APItan.send(request: request) { result in
-            switch result {
-            case .Success(let json):
-                print(json)
-            case .Failure(let error):
-                print(error)
+        let request1 = GetRequest()
+        let request2 = GetRequest()
+        APItan.send(requests: [request1, request2]) { results in
+            results.forEach {
+                switch $0 {
+                case .Success(let json):
+                    print(json)
+                case .Failure(let error):
+                    print(error)
+                }
             }
         }
         return true

@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "248582361D1671CA00E051A5"
                BuildableName = "APItan.framework"
-               BlueprintName = "APItan"
+               BlueprintName = "APItan-iOS"
                ReferencedContainer = "container:APItan.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,7 +47,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "248582361D1671CA00E051A5"
             BuildableName = "APItan.framework"
-            BlueprintName = "APItan"
+            BlueprintName = "APItan-iOS"
             ReferencedContainer = "container:APItan.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,7 +65,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "248582361D1671CA00E051A5"
             BuildableName = "APItan.framework"
-            BlueprintName = "APItan"
+            BlueprintName = "APItan-iOS"
             ReferencedContainer = "container:APItan.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

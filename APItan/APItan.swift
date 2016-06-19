@@ -12,6 +12,7 @@ public enum Method: String {
     case Get = "GET"
     case Post = "POST"
     case Put = "PUT"
+    case Patch = "PATCH"
     case Delete = "DELETE"
 }
 
@@ -27,7 +28,6 @@ public final class APItan {
     }()
 
     public static func send(request request: RequestType, completion: (Result<AnyObject>) -> Void) {
-
         do {
             guard let request = request.request() else {
                 throw APIError.URLError("Bad URL")
@@ -49,6 +49,23 @@ public final class APItan {
 
         } catch let error as NSError {
             self.completionOnMainThread(.Failure(error), completion: completion)
+        }
+    }
+
+    public static func send(requests requests: [RequestType], completion: ([Result<AnyObject>]) -> Void) {
+        var results: [Result<AnyObject>] = Array(count: requests.count, repeatedValue: Result.Failure(APIError.Unknown("")))
+
+        let group = dispatch_group_create()
+        requests.enumerate().forEach { i, request in
+            dispatch_group_enter(group)
+            send(request: request) { result in
+                results[i] = result
+                dispatch_group_leave(group)
+            }
+        }
+
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+            completion(results)
         }
     }
 

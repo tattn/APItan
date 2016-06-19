@@ -43,7 +43,7 @@ extension RequestType {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
 
         switch method {
-        case .Post, .Put:
+        case .Post, .Put, .Patch:
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         default: break
         }
@@ -52,7 +52,7 @@ extension RequestType {
 
     private func createBody() -> NSData? {
         switch method {
-        case .Post, .Put:
+        case .Post, .Put, .Patch:
             guard let body = self.serializeJSON(parameters) else {
                 print("NSJSONSerialization error")
                 return nil

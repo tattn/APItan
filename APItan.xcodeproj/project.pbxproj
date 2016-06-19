@@ -24,13 +24,8 @@
 		248582701D1685A600E051A5 /* APItan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582511D1673B100E051A5 /* APItan.swift */; };
 		248582711D1685A600E051A5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582531D16748900E051A5 /* Result.swift */; };
 		248582721D1685A600E051A5 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582551D1674EC00E051A5 /* APIError.swift */; };
-		248582741D16D86D00E051A5 /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582731D16D86D00E051A5 /* StringConvertible.swift */; };
-		248582751D16DA6E00E051A5 /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582731D16D86D00E051A5 /* StringConvertible.swift */; };
-		248582761D16DA6F00E051A5 /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582731D16D86D00E051A5 /* StringConvertible.swift */; };
-		248582781D16E76900E051A5 /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582771D16E76900E051A5 /* Parameter.swift */; };
 		2485827A1D16E8F600E051A5 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582791D16E8F600E051A5 /* Request.swift */; };
 		2485827B1D16E9D800E051A5 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582791D16E8F600E051A5 /* Request.swift */; };
-		2485827C1D16E9E300E051A5 /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582771D16E76900E051A5 /* Parameter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,8 +55,6 @@
 		248582671D167F9E00E051A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2485826A1D167F9E00E051A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2485826C1D167F9E00E051A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		248582731D16D86D00E051A5 /* StringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConvertible.swift; sourceTree = "<group>"; };
-		248582771D16E76900E051A5 /* Parameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parameter.swift; sourceTree = "<group>"; };
 		248582791D16E8F600E051A5 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,14 +107,12 @@
 		248582391D1671CA00E051A5 /* APItan */ = {
 			isa = PBXGroup;
 			children = (
-				2485823A1D1671CA00E051A5 /* APItan.h */,
-				2485823C1D1671CA00E051A5 /* Info.plist */,
-				248582511D1673B100E051A5 /* APItan.swift */,
-				248582531D16748900E051A5 /* Result.swift */,
 				248582551D1674EC00E051A5 /* APIError.swift */,
-				248582731D16D86D00E051A5 /* StringConvertible.swift */,
-				248582771D16E76900E051A5 /* Parameter.swift */,
+				2485823A1D1671CA00E051A5 /* APItan.h */,
+				248582511D1673B100E051A5 /* APItan.swift */,
+				2485823C1D1671CA00E051A5 /* Info.plist */,
 				248582791D16E8F600E051A5 /* Request.swift */,
+				248582531D16748900E051A5 /* Result.swift */,
 			);
 			path = APItan;
 			sourceTree = "<group>";
@@ -139,11 +130,11 @@
 			isa = PBXGroup;
 			children = (
 				248582601D167F9E00E051A5 /* AppDelegate.swift */,
-				248582621D167F9E00E051A5 /* ViewController.swift */,
-				248582641D167F9E00E051A5 /* Main.storyboard */,
 				248582671D167F9E00E051A5 /* Assets.xcassets */,
-				248582691D167F9E00E051A5 /* LaunchScreen.storyboard */,
 				2485826C1D167F9E00E051A5 /* Info.plist */,
+				248582691D167F9E00E051A5 /* LaunchScreen.storyboard */,
+				248582641D167F9E00E051A5 /* Main.storyboard */,
+				248582621D167F9E00E051A5 /* ViewController.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -162,9 +153,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		248582361D1671CA00E051A5 /* APItan */ = {
+		248582361D1671CA00E051A5 /* APItan-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2485823F1D1671CA00E051A5 /* Build configuration list for PBXNativeTarget "APItan" */;
+			buildConfigurationList = 2485823F1D1671CA00E051A5 /* Build configuration list for PBXNativeTarget "APItan-iOS" */;
 			buildPhases = (
 				248582321D1671CA00E051A5 /* Sources */,
 				248582331D1671CA00E051A5 /* Frameworks */,
@@ -175,7 +166,7 @@
 			);
 			dependencies = (
 			);
-			name = APItan;
+			name = "APItan-iOS";
 			productName = APItan;
 			productReference = 248582371D1671CA00E051A5 /* APItan.framework */;
 			productType = "com.apple.product-type.framework";
@@ -249,7 +240,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				248582361D1671CA00E051A5 /* APItan */,
+				248582361D1671CA00E051A5 /* APItan-iOS */,
 				248582451D16739100E051A5 /* APItanTests */,
 				2485825D1D167F9E00E051A5 /* Example */,
 			);
@@ -290,9 +281,7 @@
 			files = (
 				248582541D16748900E051A5 /* Result.swift in Sources */,
 				2485827A1D16E8F600E051A5 /* Request.swift in Sources */,
-				248582781D16E76900E051A5 /* Parameter.swift in Sources */,
 				248582521D1673B100E051A5 /* APItan.swift in Sources */,
-				248582741D16D86D00E051A5 /* StringConvertible.swift in Sources */,
 				248582561D1674EC00E051A5 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,7 +294,6 @@
 				248582591D16790800E051A5 /* APIError.swift in Sources */,
 				248582571D16790800E051A5 /* APItan.swift in Sources */,
 				248582491D16739100E051A5 /* APItanTests.swift in Sources */,
-				248582761D16DA6F00E051A5 /* StringConvertible.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,8 +303,6 @@
 			files = (
 				248582631D167F9E00E051A5 /* ViewController.swift in Sources */,
 				248582611D167F9E00E051A5 /* AppDelegate.swift in Sources */,
-				248582751D16DA6E00E051A5 /* StringConvertible.swift in Sources */,
-				2485827C1D16E9E300E051A5 /* Parameter.swift in Sources */,
 				248582711D1685A600E051A5 /* Result.swift in Sources */,
 				2485827B1D16E9D800E051A5 /* Request.swift in Sources */,
 				248582721D1685A600E051A5 /* APIError.swift in Sources */,
@@ -329,7 +315,7 @@
 /* Begin PBXTargetDependency section */
 		2485824D1D16739100E051A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 248582361D1671CA00E051A5 /* APItan */;
+			target = 248582361D1671CA00E051A5 /* APItan-iOS */;
 			targetProxy = 2485824C1D16739100E051A5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -341,6 +327,7 @@
 				248582651D167F9E00E051A5 /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		248582691D167F9E00E051A5 /* LaunchScreen.storyboard */ = {
@@ -349,6 +336,7 @@
 				2485826A1D167F9E00E051A5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -457,7 +445,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.tattn.APItan;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = APItan;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -475,7 +463,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.tattn.APItan;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = APItan;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -536,13 +524,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2485823F1D1671CA00E051A5 /* Build configuration list for PBXNativeTarget "APItan" */ = {
+		2485823F1D1671CA00E051A5 /* Build configuration list for PBXNativeTarget "APItan-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				248582401D1671CA00E051A5 /* Debug */,
 				248582411D1671CA00E051A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2485824E1D16739100E051A5 /* Build configuration list for PBXNativeTarget "APItanTests" */ = {
 			isa = XCConfigurationList;
@@ -551,6 +540,7 @@
 				248582501D16739100E051A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2485826D1D167F9E00E051A5 /* Build configuration list for PBXNativeTarget "Example" */ = {
 			isa = XCConfigurationList;
@@ -559,6 +549,7 @@
 				2485826F1D167F9E00E051A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
