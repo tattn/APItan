@@ -70,18 +70,17 @@ APItan.send(requests: [request1, request2, request3], isSeries: true) { results 
 }
 ```
 
-## In the future
+### Like a promise
 
 ```swift
-// Like Promiss
-APItan.send(request: request1) { json -> RequestType? in
+APItan.send(request: request1).next { json -> RequestType? in
     print(json)
     return request2
 }.next { json -> RequestType? in
     print(json)
     return request3
-    // return nil // go to fail
-}.next { json in
+    // return nil // finish & go to always
+}.next { json -> Void in
     print(json)
 }.always {
 }.fail { error in
