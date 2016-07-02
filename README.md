@@ -86,8 +86,33 @@ APItan.send(request: request1).next { json -> RequestType? in
 }.fail { error in
     print(error)
 }
-
 ```
+
+### Mock
+
+```swift
+struct GetRequest: RequestType {
+    let method = Method.Get
+    let path = "https://***.com"
+    let parameters = [String: AnyObject]()
+
+    let mockData: AnyObject? = [
+        ["id": 1],
+        ["id": 2]
+    ]
+}
+
+let request = GetRequest()
+APItan.send(request: request) { result in
+    switch result {
+    case .Success(let json):
+        print(json)
+    case .Failure(let error):
+        print(error)
+    }
+}
+```
+
 
 ## Contributing
 

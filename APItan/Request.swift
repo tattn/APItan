@@ -12,6 +12,8 @@ public protocol RequestType {
     var method: HTTPMethod { get }
     var path: String { get }
     var parameters: [String: AnyObject] { get }
+
+    var mockData: AnyObject? { get }
 }
 
 public extension RequestType {
@@ -59,6 +61,12 @@ public extension RequestType {
         } catch {
             return nil
         }
+    }
+}
+
+public extension RequestType {
+    var mockData: AnyObject? {
+        return nil
     }
 }
 

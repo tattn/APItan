@@ -32,6 +32,11 @@ public final class APItan {
     }()
 
     public static func send(request request: RequestType, completion: (Result<AnyObject>) -> Void) {
+        if let mockData = request.mockData {
+            completion(.Success(mockData))
+            return
+        }
+
         do {
             guard let request = request.createRequest() else {
                 throw APIError.URLError("Bad URL")
