@@ -14,6 +14,7 @@ public protocol RequestType {
     var parameters: [String: AnyObject] { get }
 
     var mockData: AnyObject? { get }
+    var mockWaitTime: Int { get }
 }
 
 public extension RequestType {
@@ -67,6 +68,9 @@ public extension RequestType {
 public extension RequestType {
     var mockData: AnyObject? {
         return nil
+    }
+    var mockWaitTime: Int {
+        return 0
     }
 }
 

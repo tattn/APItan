@@ -22,6 +22,7 @@ struct GetRequest: RequestType {
     init(userId: Int) {
         self.userId = userId
     }
+
 }
 
 @UIApplicationMain

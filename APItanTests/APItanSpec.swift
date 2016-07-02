@@ -66,7 +66,7 @@ class APItanSpec: QuickSpec {
                 let requests: [RequestType] = (0..<4).map { _ in MockRequest() }
                 APItan.send(requests: requests) { results in
                     let count = results.flatMap { $0.value as? [[String: Int]] }.flatMap { $0 }.filter { result in 1...2 ~= result["id"]! }.count
-                    expect(count).to(equal(4*2))
+                    expect(count).toEventually(equal(4*2))
                 }
             }
         }

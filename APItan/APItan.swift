@@ -33,7 +33,12 @@ public final class APItan {
 
     public static func send(request request: RequestType, completion: (Result<AnyObject>) -> Void) {
         if let mockData = request.mockData {
-            completion(.Success(mockData))
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                usleep(UInt32(request.mockWaitTime * 1000))
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(.Success(mockData))
+                }
+            }
             return
         }
 
