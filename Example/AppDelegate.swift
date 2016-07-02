@@ -13,17 +13,11 @@ struct GetRequest: RequestType {
 
     let path = "http://jsonplaceholder.typicode.com/posts"
 
-//    var parameters: [String: AnyObject] {
-//        return ["userId": userId]
-//    }
-    let parameters = [String: AnyObject]()
+    var parameters: [String: AnyObject] {
+        return ["userId": userId]
+    }
 
     let userId: Int
-
-    let mockData: AnyObject? = [
-        ["id": 1],
-        ["id": 2]
-    ]
 
     init(userId: Int) {
         self.userId = userId

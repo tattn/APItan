@@ -36,8 +36,8 @@ class APItanSpec: QuickSpec {
                     let request2 = GetRequest(userId: 2)
                     let request3 = GetRequest(userId: 3)
                     let request4 = GetRequest(userId: 4)
-                    var no = 0
-                    APItan.send(requests: [request1, request2, request3, request4], isSeries: false) { results in
+                    var no = 1
+                    APItan.send(requests: [request1, request2, request3, request4], isSeries: true) { results in
                         results.forEach {
                             switch $0 {
                             case .Success(let json):
@@ -49,6 +49,24 @@ class APItanSpec: QuickSpec {
                             }
                         }
                     }
+                }
+            }
+
+            it("returns mock data") {
+                struct MockRequest: RequestType {
+                    let method = HTTPMethod.Get
+                    let path = ""
+                    var parameters = [String: AnyObject]()
+                    let mockData: AnyObject? = [
+                        ["id": 1],
+                        ["id": 2]
+                    ]
+                }
+
+                let requests: [RequestType] = (0..<4).map { _ in MockRequest() }
+                APItan.send(requests: requests) { results in
+                    let count = results.flatMap { $0.value as? [[String: Int]] }.flatMap { $0 }.filter { result in 1...2 ~= result["id"]! }.count
+                    expect(count).to(equal(4*2))
                 }
             }
         }
