@@ -14,7 +14,13 @@ struct GetRequest: RequestType {
     let path = "http://jsonplaceholder.typicode.com/posts"
 
     var parameters: [String: AnyObject] {
-        return ["userId": 1]
+        return ["userId": userId]
+    }
+
+    let userId: Int
+
+    init(userId: Int) {
+        self.userId = userId
     }
 }
 
@@ -25,13 +31,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let request1 = GetRequest()
-        let request2 = GetRequest()
-        APItan.send(requests: [request1, request2]) { results in
+        let request1 = GetRequest(userId: 1)
+        let request2 = GetRequest(userId: 2)
+        let request3 = GetRequest(userId: 3)
+        let request4 = GetRequest(userId: 4)
+        APItan.send(requests: [request1, request2, request3, request4], isSeries: false) { results in
             results.forEach {
                 switch $0 {
                 case .Success(let json):
-                    print(json)
+                    for user in json as? Array<AnyObject> ?? [] {
+                        print(user["id"])
+                    }
                 case .Failure(let error):
                     print(error)
                 }

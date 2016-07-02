@@ -56,7 +56,15 @@ public final class APItan {
         }
     }
 
-    public static func send(requests requests: [RequestType], completion: ([Result<AnyObject>]) -> Void) {
+    public static func send(requests requests: [RequestType], isSeries: Bool = false, completion: ([Result<AnyObject>]) -> Void) {
+        if isSeries {
+            sendInSeries(requests: requests, completion: completion)
+        } else {
+            sendInParallel(requests: requests, completion: completion)
+        }
+    }
+
+    private static func sendInParallel(requests requests: [RequestType], completion: ([Result<AnyObject>]) -> Void) {
         var results: [Result<AnyObject>] = Array(count: requests.count, repeatedValue: Result.Failure(APIError.Unknown("")))
 
         let group = dispatch_group_create()
@@ -70,6 +78,26 @@ public final class APItan {
 
         dispatch_group_notify(group, dispatch_get_main_queue()) {
             completion(results)
+        }
+    }
+
+    private static func sendInSeries(requests requests: [RequestType], completion: ([Result<AnyObject>]) -> Void) {
+        var results = [Result<AnyObject>]()
+
+        func run(index: Int) {
+            guard index < requests.count else {
+                completion(results)
+                return
+            }
+
+            send(request: requests[index]) { result in
+                results.append(result)
+                run(index + 1)
+            }
+        }
+
+        if !requests.isEmpty {
+            run(0)
         }
     }
 
