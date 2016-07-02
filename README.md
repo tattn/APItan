@@ -55,10 +55,8 @@ APItan.send(requests: [request1, request2, request3]) { results in
 }
 ```
 
-## In the future
-
+### Series
 ```swift
-// Series
 APItan.send(requests: [request1, request2, request3], isSeries: true) { results in
     // all done
     results.forEach { result in
@@ -70,7 +68,11 @@ APItan.send(requests: [request1, request2, request3], isSeries: true) { results 
         }
     }
 }
+```
 
+## In the future
+
+```swift
 // Like Promiss
 APItan.send(request: request1) { json -> RequestType? in
     print(json)
