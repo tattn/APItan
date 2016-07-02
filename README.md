@@ -100,6 +100,8 @@ struct GetRequest: RequestType {
         ["id": 1],
         ["id": 2]
     ]
+
+    let mockWaitTime = 1000 // wait for 1000[ms]
 }
 
 let request = GetRequest()
