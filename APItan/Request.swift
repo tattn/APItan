@@ -15,8 +15,8 @@ public protocol RequestType {
 }
 
 extension RequestType {
-    func request() -> NSURLRequest? {
-        guard let url = createUrl() else { return nil }
+    public func createRequest() -> NSURLRequest? {
+        guard let url = NSURL(string: urlWithParameters) else { return nil }
 
         let request = NSMutableURLRequest(URL: url, cachePolicy: .ReloadIgnoringLocalCacheData, timeoutInterval: 10.0)
         request.HTTPMethod = method.rawValue
@@ -30,38 +30,27 @@ extension RequestType {
         return request
     }
 
-    private func createUrl() -> NSURL? {
-        switch method {
-        case .Get, .Delete:
-            return NSURL(string: "\(path)?\(parameters.stringFromHttpParameters())")
-        default:
-            return NSURL(string: path)
-        }
+    public var urlWithParameters: String {
+        return method.isQueryParameter ? "\(path)?\(parameters.stringFromHttpParameters())" : path
     }
 
     private func setHTTPHeaders(request: NSMutableURLRequest) {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
 
-        switch method {
-        case .Post, .Put, .Patch:
+        if !method.isQueryParameter {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        default: break
         }
-
     }
 
     private func createBody() -> NSData? {
-        switch method {
-        case .Post, .Put, .Patch:
-            guard let body = self.serializeJSON(parameters) else {
-                print("NSJSONSerialization error")
-                return nil
-            }
+        guard !method.isQueryParameter else { return nil }
 
-            return body
-        default:
+        guard let body = self.serializeJSON(parameters) else {
+            print("NSJSONSerialization error")
             return nil
         }
+
+        return body
     }
 
     private func serializeJSON(data: [String: AnyObject]) -> NSData? {

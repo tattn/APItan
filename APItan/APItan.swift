@@ -14,6 +14,10 @@ public enum Method: String {
     case Put = "PUT"
     case Patch = "PATCH"
     case Delete = "DELETE"
+
+    var isQueryParameter: Bool {
+        return self == .Get || self == .Delete
+    }
 }
 
 public final class APItan {
@@ -29,7 +33,7 @@ public final class APItan {
 
     public static func send(request request: RequestType, completion: (Result<AnyObject>) -> Void) {
         do {
-            guard let request = request.request() else {
+            guard let request = request.createRequest() else {
                 throw APIError.URLError("Bad URL")
             }
 
