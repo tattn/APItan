@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		242C3C121D27CC5000BF7992 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242C3C111D27CC5000BF7992 /* Promise.swift */; };
+		242C3C131D27CE4700BF7992 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242C3C111D27CC5000BF7992 /* Promise.swift */; };
 		2485823B1D1671CA00E051A5 /* APItan.h in Headers */ = {isa = PBXBuildFile; fileRef = 2485823A1D1671CA00E051A5 /* APItan.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		248582491D16739100E051A5 /* APItanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582481D16739100E051A5 /* APItanTests.swift */; };
 		2485824B1D16739100E051A5 /* APItan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 248582371D1671CA00E051A5 /* APItan.framework */; };
@@ -39,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		242C3C111D27CC5000BF7992 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		248582371D1671CA00E051A5 /* APItan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APItan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2485823A1D1671CA00E051A5 /* APItan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APItan.h; sourceTree = "<group>"; };
 		2485823C1D1671CA00E051A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -113,6 +116,7 @@
 				2485823C1D1671CA00E051A5 /* Info.plist */,
 				248582791D16E8F600E051A5 /* Request.swift */,
 				248582531D16748900E051A5 /* Result.swift */,
+				242C3C111D27CC5000BF7992 /* Promise.swift */,
 			);
 			path = APItan;
 			sourceTree = "<group>";
@@ -281,6 +285,7 @@
 			files = (
 				248582541D16748900E051A5 /* Result.swift in Sources */,
 				2485827A1D16E8F600E051A5 /* Request.swift in Sources */,
+				242C3C121D27CC5000BF7992 /* Promise.swift in Sources */,
 				248582521D1673B100E051A5 /* APItan.swift in Sources */,
 				248582561D1674EC00E051A5 /* APIError.swift in Sources */,
 			);
@@ -303,6 +308,7 @@
 			files = (
 				248582631D167F9E00E051A5 /* ViewController.swift in Sources */,
 				248582611D167F9E00E051A5 /* AppDelegate.swift in Sources */,
+				242C3C131D27CE4700BF7992 /* Promise.swift in Sources */,
 				248582711D1685A600E051A5 /* Result.swift in Sources */,
 				2485827B1D16E9D800E051A5 /* Request.swift in Sources */,
 				248582721D1685A600E051A5 /* APIError.swift in Sources */,
