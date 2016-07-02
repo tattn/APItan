@@ -9,12 +9,12 @@
 import Foundation
 
 public protocol RequestType {
-    var method: Method { get }
+    var method: HTTPMethod { get }
     var path: String { get }
     var parameters: [String: AnyObject] { get }
 }
 
-extension RequestType {
+public extension RequestType {
     public func createRequest() -> NSURLRequest? {
         guard let url = NSURL(string: urlWithParameters) else { return nil }
 

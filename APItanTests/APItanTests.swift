@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import APItan
 
 class APItanTests: XCTestCase {
 
@@ -23,19 +24,6 @@ class APItanTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testJSON() {
-        let url = "http://jsonplaceholder.typicode.com/user"
-        let request = NSURLRequest(URL: NSURL(string: url)!)
-        APItan.send(request: request) { result in
-            switch result {
-            case .Success(let json):
-                print(json)
-            case .Failure(let error):
-                print(error)
-            }
-        }
     }
 
     func testPerformanceExample() {

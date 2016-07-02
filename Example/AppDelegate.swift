@@ -9,7 +9,7 @@
 import UIKit
 
 struct GetRequest: RequestType {
-    let method = Method.Get
+    let method = HTTPMethod.Get
 
     let path = "http://jsonplaceholder.typicode.com/posts"
 
