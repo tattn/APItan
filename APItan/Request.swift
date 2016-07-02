@@ -17,6 +17,19 @@ public protocol RequestType {
     var mockWaitTime: Int { get }
 }
 
+// Default values
+public extension RequestType {
+    var parameters: [String: AnyObject] {
+        return [:]
+    }
+    var mockData: AnyObject? {
+        return nil
+    }
+    var mockWaitTime: Int {
+        return 0
+    }
+}
+
 public extension RequestType {
     public func createRequest() -> NSURLRequest? {
         guard let url = NSURL(string: urlWithParameters) else { return nil }
@@ -62,15 +75,6 @@ public extension RequestType {
         } catch {
             return nil
         }
-    }
-}
-
-public extension RequestType {
-    var mockData: AnyObject? {
-        return nil
-    }
-    var mockWaitTime: Int {
-        return 0
     }
 }
 

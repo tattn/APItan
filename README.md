@@ -18,7 +18,7 @@ not yet...
 
 ```swift
 struct GetRequest: RequestType {
-    let method = Method.Get
+    let method = HTTPMethod.Get
     let path = "https://***.com"
     var parameters: [String: AnyObject] {
         return [
@@ -92,9 +92,8 @@ APItan.send(request: request1).next { json -> RequestType? in
 
 ```swift
 struct GetRequest: RequestType {
-    let method = Method.Get
+    let method = HTTPMethod.Get
     let path = "https://***.com"
-    let parameters = [String: AnyObject]()
 
     let mockData: AnyObject? = [
         ["id": 1],
