@@ -32,42 +32,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        let request1 = GetRequest(userId: 1)
-        let request2 = GetRequest(userId: 2)
-        let request3 = GetRequest(userId: 3)
-        let request4 = GetRequest(userId: 4)
-        APItan.send(requests: [request1, request2, request3, request4], isSeries: false) { results in
-            results.forEach {
-                switch $0 {
-                case .Success(let json):
-                    for user in json as? Array<AnyObject> ?? [] {
-                        print(user["id"])
-                    }
-                case .Failure(let error):
-                    print(error)
-                }
-            }
-        }
-
-//        APItan.sendByPromise(request: GetRequest(userId: 1)).next { json -> RequestType? in
-//            for user in json as? Array<AnyObject> ?? [] {
-//                print(user["id"])
+//        let request1 = GetRequest(userId: 1)
+//        let request2 = GetRequest(userId: 2)
+//        let request3 = GetRequest(userId: 3)
+//        let request4 = GetRequest(userId: 4)
+//        APItan.send(requests: [request1, request2, request3, request4], isSeries: false) { results in
+//            results.forEach {
+//                switch $0 {
+//                case .Success(let json):
+//                    for user in json as? Array<AnyObject> ?? [] {
+//                        print(user["id"])
+//                    }
+//                case .Failure(let error):
+//                    print(error)
+//                }
 //            }
-//            return GetRequest(userId: 2)
-//        }.next { json -> RequestType? in
-//            for user in json as? Array<AnyObject> ?? [] {
-//                print(user["id"])
-//            }
-//            return GetRequest(userId: 3)
-//        }.next { json -> Void in
-//            for user in json as? Array<AnyObject> ?? [] {
-//                print(user["id"])
-//            }
-//        }.fail { error in
-//            print(error)
-//        }.always {
-//            print("always")
 //        }
+
+        APItan.send(request: GetRequest(userId: 1)).next { json -> RequestType? in
+            for user in json as? Array<AnyObject> ?? [] {
+                print(user["id"])
+            }
+            return GetRequest(userId: 2)
+        }.next { json -> RequestType? in
+            for user in json as? Array<AnyObject> ?? [] {
+                print(user["id"])
+            }
+            return GetRequest(userId: 3)
+        }.next { json -> Void in
+            for user in json as? Array<AnyObject> ?? [] {
+                print(user["id"])
+            }
+        }.fail { error in
+            print(error)
+        }.always {
+            print("always")
+        }
 
 
         return true

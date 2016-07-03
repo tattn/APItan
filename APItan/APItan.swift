@@ -111,23 +111,9 @@ public final class APItan {
         }
     }
 
-    public static func sendByPromise(request request: RequestType) -> Promise {
+    public static func send(request request: RequestType) -> Promise {
         return Promise(request: request)
     }
-//    // Like Promiss
-//APItan.send(request: request1) { json -> RequestType? in
-//    print(json)
-//    return request2
-//}.next { json -> RequestType? in
-//    print(json)
-//    return request3
-//    // return nil // go to fail
-//}.next { json in
-//    print(json)
-//}.always {
-//}.fail { error in
-//    print(error)
-//}
 
     private static func completionOnMainThread(result: Result<AnyObject>, completion: (Result<AnyObject>) -> Void) {
         NSOperationQueue.mainQueue().addOperationWithBlock {
