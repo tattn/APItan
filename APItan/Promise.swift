@@ -8,17 +8,35 @@
 
 import Foundation
 
-public final class Promise {
+protocol PromiseType: class {
+    associatedtype T
+    associatedtype U
+
+    var processes: [AnyObject -> RequestType?] { get }
+    var alwaysProcess: (() -> Void)? { get }
+    var failProcess: (AnyObject? -> Void)? { get }
+
+    var error: AnyObject? { get }
+    var isError: Bool { get }
+    var isFinished: Bool { get }
+
+    func next(completion: T -> U?) -> Promise
+    func next(completion: T -> Void) -> Promise
+    func always(completion: () -> Void) -> Promise
+    func fail(completion: (AnyObject?) -> Void) -> Promise
+}
+
+public final class Promise: PromiseType {
 
     private var nextRequests: [RequestType]?
 
-    private var processes: [AnyObject -> RequestType?] = []
-    private var alwaysProcess: (() -> Void)?
-    private var failProcess: (AnyObject? -> Void)?
+    private(set) var processes: [AnyObject -> RequestType?] = []
+    private(set) var alwaysProcess: (() -> Void)?
+    private(set) var failProcess: (AnyObject? -> Void)?
 
-    private var error: AnyObject?
-    private var isError = false
-    private var isFinished = false
+    private(set) var error: AnyObject?
+    private(set) var isError = false
+    private(set) var isFinished = false
 
     init(request: RequestType) {
         nextRequests = [request]
@@ -37,11 +55,10 @@ public final class Promise {
     }
 
     public func next(completion: AnyObject -> Void) -> Promise {
-        next { obj -> RequestType? in
+        return next { obj -> RequestType? in
             completion(obj)
             return nil
         }
-        return self
     }
 
     public func always(completion: () -> Void) -> Promise {
@@ -106,7 +123,6 @@ public final class Promise {
 }
 
 private extension Array {
-
     mutating func shift() -> Element? {
         return isEmpty ? nil : self.removeAtIndex(startIndex)
     }
