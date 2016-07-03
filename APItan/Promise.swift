@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol InternalPromiseType: class {
+private protocol InternalPromiseType: class {
     var processes: [AnyObject -> RequestType?] { get set }
     var alwaysProcess: (() -> Void)? { get set }
     var failProcess: (AnyObject? -> Void)? { get set }
@@ -16,6 +16,8 @@ protocol InternalPromiseType: class {
     var error: AnyObject? { get set }
     var isError: Bool { get set }
     var isFinished: Bool { get set }
+
+    var nextRequests: [RequestType]? { get set }
 }
 
 public protocol PromiseType: class {
@@ -26,6 +28,21 @@ public protocol PromiseType: class {
     func next(completion: T -> Void) -> Self
     func always(completion: () -> Void) -> Self
     func fail(completion: (AnyObject?) -> Void) -> Self
+}
+
+private extension InternalPromiseType {
+
+    func finish() {
+        guard !isFinished else {
+            alwaysProcess?()
+            return
+        }
+
+        failProcess?(error)
+        alwaysProcess?()
+        isError = true
+        isFinished = true
+    }
 }
 
 private extension PromiseType {
@@ -113,17 +130,9 @@ public final class Promise: InternalPromiseType, PromiseType {
     }
 
     private func nextProcess(request request: RequestType?) {
-        guard !isFinished else {
-            alwaysProcess?()
-            return // finish
-        }
-
-        guard let request = request else {
-            failProcess?(error)
-            alwaysProcess?()
-            isError = true
-            isFinished = true
-            return // finish
+        guard !isFinished, let request = request else {
+            finish()
+            return
         }
 
         if let process = processes.shift() {
