@@ -10,25 +10,25 @@ import Foundation
 
 public final class Promise {
 
-    private var nextRequest: RequestType?
+    private var nextRequests: [RequestType]?
 
-    private var processes: [(AnyObject) -> RequestType?] = []
+    private var processes: [AnyObject -> RequestType?] = []
     private var alwaysProcess: (() -> Void)?
-    private var failProcess: ((AnyObject?) -> Void)?
+    private var failProcess: (AnyObject? -> Void)?
 
     private var error: AnyObject?
     private var isError = false
     private var isFinished = false
 
     init(request: RequestType) {
-        nextRequest = request
+        nextRequests = [request]
     }
 
     public func next(completion: AnyObject -> RequestType?) -> Promise {
         guard !isError else { return self }
 
-        if let nextRequest = nextRequest {
-            self.nextRequest = nil
+        if let nextRequest = nextRequests?.first {
+            self.nextRequests = nil
             runProcess(request: nextRequest, completion: completion)
         } else {
             processes.append(completion)
@@ -100,7 +100,7 @@ public final class Promise {
         if let process = processes.shift() {
             runProcess(request: request, completion: process)
         } else {
-            nextRequest = request
+            nextRequests = [request]
         }
     }
 }
