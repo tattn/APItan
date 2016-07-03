@@ -18,6 +18,7 @@ private let domain = "com.github.tattn.apitan"
 public enum APIError: ErrorType {
     case JSONError(String)
     case URLError(String)
+    case Cancelled(String)
     case Unknown(String)
 
     var error: NSError {
@@ -26,6 +27,8 @@ public enum APIError: ErrorType {
             return self.createError(10000, message: message)
         case .URLError(let message):
             return self.createError(10001, message: message)
+        case .Cancelled(let message):
+            return self.createError(10002, message: message)
         case .Unknown(let message):
             return self.createError(50000, message: message)
         }

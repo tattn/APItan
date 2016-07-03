@@ -78,6 +78,11 @@ public extension RequestType {
     }
 }
 
+func ==(lhs: RequestType, rhs: RequestType) -> Bool {
+    return !(lhs.method != rhs.method || lhs.path != rhs.path)
+}
+
+
 private extension String {
     /**
      URLとして許可された文字列かどうかを確認

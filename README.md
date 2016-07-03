@@ -114,6 +114,14 @@ APItan.send(request: request) { result in
 }
 ```
 
+### Cancellation
+
+```swift
+let request = GetRequest()
+APItan.send(request: request) { _ in }
+APItan.cancel(request: request) // cancel requests of the http method and the path
+```
+
 
 ## Contributing
 

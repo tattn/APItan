@@ -31,6 +31,9 @@ public final class APItan {
         return NSURLSession(configuration: config)
     }()
 
+    private typealias Task = (request: RequestType, task: NSURLSessionDataTask)
+    private static var tasks = [Task]()
+
     public static func send(request request: RequestType, completion: (Result<AnyObject>) -> Void) {
         if let mockData = request.mockData {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -43,14 +46,23 @@ public final class APItan {
         }
 
         do {
-            guard let request = request.createRequest() else {
+            guard let urlRequest = request.createRequest() else {
                 throw APIError.URLError("Bad URL")
             }
 
-            session.dataTaskWithRequest(request) { data, response, error in
+            let taskIndex = tasks.count
+
+            let task = session.dataTaskWithRequest(urlRequest) { data, response, error in
+                if tasks.indices ~= taskIndex {
+                    tasks.removeAtIndex(taskIndex)
+                }
                 do {
                     guard let data = data else {
-                        throw APIError.JSONError("Failed to get a data")
+                        if error?.code == NSURLErrorCancelled {
+                            throw APIError.Cancelled("Cancelled to request")
+                        } else {
+                            throw APIError.JSONError("Failed to get a data")
+                        }
                     }
 
                     let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
@@ -59,7 +71,9 @@ public final class APItan {
                 } catch let error as NSError {
                     self.completionOnMainThread(.Failure(error), completion: completion)
                 }
-            }.resume()
+            }
+            tasks.append(Task(request, task))
+            task.resume()
 
         } catch let error as NSError {
             self.completionOnMainThread(.Failure(error), completion: completion)
@@ -118,6 +132,13 @@ public final class APItan {
     private static func completionOnMainThread(result: Result<AnyObject>, completion: (Result<AnyObject>) -> Void) {
         NSOperationQueue.mainQueue().addOperationWithBlock {
             completion(result)
+        }
+    }
+
+    public static func cancel(request request: RequestType) {
+        while let target = tasks.enumerate().filter({ $0.element.request == request }).first {
+            target.element.task.cancel()
+            tasks.removeAtIndex(target.index)
         }
     }
 }
