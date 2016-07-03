@@ -8,35 +8,74 @@
 
 import Foundation
 
-protocol PromiseType: class {
+protocol InternalPromiseType: class {
+    var processes: [AnyObject -> RequestType?] { get set }
+    var alwaysProcess: (() -> Void)? { get set }
+    var failProcess: (AnyObject? -> Void)? { get set }
+
+    var error: AnyObject? { get set }
+    var isError: Bool { get set }
+    var isFinished: Bool { get set }
+}
+
+public protocol PromiseType: class {
     associatedtype T
     associatedtype U
 
-    var processes: [AnyObject -> RequestType?] { get }
-    var alwaysProcess: (() -> Void)? { get }
-    var failProcess: (AnyObject? -> Void)? { get }
-
-    var error: AnyObject? { get }
-    var isError: Bool { get }
-    var isFinished: Bool { get }
-
-    func next(completion: T -> U?) -> Promise
-    func next(completion: T -> Void) -> Promise
-    func always(completion: () -> Void) -> Promise
-    func fail(completion: (AnyObject?) -> Void) -> Promise
+    func next(completion: T -> U?) -> Self
+    func next(completion: T -> Void) -> Self
+    func always(completion: () -> Void) -> Self
+    func fail(completion: (AnyObject?) -> Void) -> Self
 }
 
-public final class Promise: PromiseType {
+private extension PromiseType {
+    private var internalSelf: InternalPromiseType {
+        return self as! InternalPromiseType
+    }
+}
+
+public extension PromiseType {
+    public func next(completion: T -> Void) -> Self {
+        return next { obj -> U? in
+            completion(obj)
+            return nil
+        }
+    }
+
+    public func always(completion: () -> Void) -> Self {
+        if internalSelf.isFinished {
+            completion()
+        } else {
+            internalSelf.alwaysProcess = completion
+        }
+        return self
+    }
+
+    public func fail(completion: (AnyObject?) -> Void) -> Self {
+        if internalSelf.isError {
+            internalSelf.isFinished = true
+            completion(internalSelf.error)
+            internalSelf.alwaysProcess?()
+        } else {
+            internalSelf.failProcess = completion
+        }
+        return self
+    }
+}
+
+public final class Promise: InternalPromiseType, PromiseType {
+    public typealias T = AnyObject
+    public typealias U = RequestType
 
     private var nextRequests: [RequestType]?
 
-    private(set) var processes: [AnyObject -> RequestType?] = []
-    private(set) var alwaysProcess: (() -> Void)?
-    private(set) var failProcess: (AnyObject? -> Void)?
+    var processes: [AnyObject -> RequestType?] = []
+    var alwaysProcess: (() -> Void)?
+    var failProcess: (AnyObject? -> Void)?
 
-    private(set) var error: AnyObject?
-    private(set) var isError = false
-    private(set) var isFinished = false
+    var error: AnyObject?
+    var isError = false
+    var isFinished = false
 
     init(request: RequestType) {
         nextRequests = [request]
@@ -50,33 +89,6 @@ public final class Promise: PromiseType {
             runProcess(request: nextRequest, completion: completion)
         } else {
             processes.append(completion)
-        }
-        return self
-    }
-
-    public func next(completion: AnyObject -> Void) -> Promise {
-        return next { obj -> RequestType? in
-            completion(obj)
-            return nil
-        }
-    }
-
-    public func always(completion: () -> Void) -> Promise {
-        if isFinished {
-            completion()
-        } else {
-            alwaysProcess = completion
-        }
-        return self
-    }
-
-    public func fail(completion: (AnyObject?) -> Void) -> Promise {
-        if isError {
-            isFinished = true
-            completion(error)
-            alwaysProcess?()
-        } else {
-            failProcess = completion
         }
         return self
     }
