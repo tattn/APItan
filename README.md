@@ -122,6 +122,17 @@ APItan.send(request: request) { _ in }
 APItan.cancel(request: request) // cancel requests of the http method and the path
 ```
 
+## Usage With ObjectMapper
+
+```swift
+APItan.send(requests: [request1, request2], isSeries: false) { results in
+	let values = results.values
+
+	let response1 = Mapper<Request1>().map(values[0])
+	let response2 = Mapper<Request2>().map(values[1])
+}
+```
+
 
 ## Contributing
 
