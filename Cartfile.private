@@ -1,2 +1,4 @@
 github "Quick/Quick"
 github "Quick/Nimble"
+
+github "Hearst-DD/ObjectMapper" ~> 1.3

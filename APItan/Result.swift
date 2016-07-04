@@ -56,11 +56,20 @@ public enum Result<T>: ResultType {
 }
 
 public extension Array where Element: ResultType {
-    var isSuccess: Bool {
+
+    public var values: [Element.Value?] {
+        return flatMap { $0.value }
+    }
+
+    public var errors: [Element.Error?] {
+        return flatMap { $0.error }
+    }
+
+    public var isSuccess: Bool {
         return filter { $0.isFailure }.isEmpty
     }
 
-    var isFailure: Bool {
+    public var isFailure: Bool {
         return !isSuccess
     }
 }
