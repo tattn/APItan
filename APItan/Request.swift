@@ -81,31 +81,3 @@ public extension RequestType {
 func ==(lhs: RequestType, rhs: RequestType) -> Bool {
     return !(lhs.method != rhs.method || lhs.path != rhs.path)
 }
-
-
-private extension String {
-    /**
-     URLとして許可された文字列かどうかを確認
-     */
-    func stringByAddingPercentEncodingForURLQueryValue() -> String? {
-        let allowedCharacters = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~")
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacters)
-    }
-}
-
-private extension Dictionary {
-    /**
-     HTTPパラメータを作成
-     */
-    func stringFromHttpParameters() -> String {
-        let parameterArray = self.map { key, value -> String in
-            let key = String(key)
-            let value = String(value)
-            guard let escapedKey = key.stringByAddingPercentEncodingForURLQueryValue() else { return "" }
-            guard let escapedValue = value.stringByAddingPercentEncodingForURLQueryValue() else { return "" }
-            return "\(escapedKey)=\(escapedValue)"
-        }
-        return parameterArray.joinWithSeparator("&")
-    }
-
-}

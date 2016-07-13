@@ -125,7 +125,7 @@ APItan.cancel(request: request) // cancel requests of the http method and the pa
 ## Usage With ObjectMapper
 
 ```swift
-APItan.send(requests: [request1, request2], isSeries: false) { results in
+APItan.send(requests: [request1, request2]) { results in
 	let values = results.values
 
 	let response1 = Mapper<Request1>().map(values[0])

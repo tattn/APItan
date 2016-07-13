@@ -28,6 +28,8 @@
 		248582721D1685A600E051A5 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582551D1674EC00E051A5 /* APIError.swift */; };
 		2485827A1D16E8F600E051A5 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582791D16E8F600E051A5 /* Request.swift */; };
 		2485827B1D16E9D800E051A5 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582791D16E8F600E051A5 /* Request.swift */; };
+		24DDCC721D3687C600CC8046 /* Dictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DDCC711D3687C600CC8046 /* Dictionary+.swift */; };
+		24DDCC731D368DAD00CC8046 /* Dictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DDCC711D3687C600CC8046 /* Dictionary+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,7 @@
 		2485826A1D167F9E00E051A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2485826C1D167F9E00E051A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		248582791D16E8F600E051A5 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		24DDCC711D3687C600CC8046 /* Dictionary+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +148,7 @@
 		248582391D1671CA00E051A5 /* APItan */ = {
 			isa = PBXGroup;
 			children = (
+				24DDCC701D3687B300CC8046 /* Extension */,
 				248582551D1674EC00E051A5 /* APIError.swift */,
 				2485823A1D1671CA00E051A5 /* APItan.h */,
 				248582511D1673B100E051A5 /* APItan.swift */,
@@ -178,6 +182,14 @@
 				248582621D167F9E00E051A5 /* ViewController.swift */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		24DDCC701D3687B300CC8046 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				24DDCC711D3687C600CC8046 /* Dictionary+.swift */,
+			);
+			name = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +339,7 @@
 				242C3C121D27CC5000BF7992 /* Promise.swift in Sources */,
 				248582521D1673B100E051A5 /* APItan.swift in Sources */,
 				248582561D1674EC00E051A5 /* APIError.swift in Sources */,
+				24DDCC721D3687C600CC8046 /* Dictionary+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +361,7 @@
 				242C3C131D27CE4700BF7992 /* Promise.swift in Sources */,
 				248582711D1685A600E051A5 /* Result.swift in Sources */,
 				2485827B1D16E9D800E051A5 /* Request.swift in Sources */,
+				24DDCC731D368DAD00CC8046 /* Dictionary+.swift in Sources */,
 				248582721D1685A600E051A5 /* APIError.swift in Sources */,
 				248582701D1685A600E051A5 /* APItan.swift in Sources */,
 			);
