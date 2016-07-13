@@ -30,6 +30,7 @@
 		2485827B1D16E9D800E051A5 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248582791D16E8F600E051A5 /* Request.swift */; };
 		24DDCC721D3687C600CC8046 /* Dictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DDCC711D3687C600CC8046 /* Dictionary+.swift */; };
 		24DDCC731D368DAD00CC8046 /* Dictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DDCC711D3687C600CC8046 /* Dictionary+.swift */; };
+		24DDCC751D3693F800CC8046 /* NSURL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DDCC741D3693F800CC8046 /* NSURL+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		2485826C1D167F9E00E051A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		248582791D16E8F600E051A5 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		24DDCC711D3687C600CC8046 /* Dictionary+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+.swift"; sourceTree = "<group>"; };
+		24DDCC741D3693F800CC8046 /* NSURL+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				24DDCC711D3687C600CC8046 /* Dictionary+.swift */,
+				24DDCC741D3693F800CC8046 /* NSURL+.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 			files = (
 				248582541D16748900E051A5 /* Result.swift in Sources */,
 				2485827A1D16E8F600E051A5 /* Request.swift in Sources */,
+				24DDCC751D3693F800CC8046 /* NSURL+.swift in Sources */,
 				242C3C121D27CC5000BF7992 /* Promise.swift in Sources */,
 				248582521D1673B100E051A5 /* APItan.swift in Sources */,
 				248582561D1674EC00E051A5 /* APIError.swift in Sources */,
