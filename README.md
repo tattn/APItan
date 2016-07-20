@@ -88,6 +88,18 @@ APItan.send(request: request1).next { json -> RequestType? in
 }
 ```
 
+### HTTP Header
+
+```swift
+struct GetRequest: RequestType {
+    let method = HTTPMethod.Get
+    let path = "https://***.com"
+    let headers: [String: String] = [
+	    "X-Application-Key": "********************",
+	]
+}
+```
+
 ### Mock
 
 ```swift

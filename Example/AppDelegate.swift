@@ -25,6 +25,7 @@ struct GetRequest: RequestType {
 
 }
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

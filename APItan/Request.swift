@@ -12,6 +12,7 @@ public protocol RequestType {
     var method: HTTPMethod { get }
     var path: String { get }
     var parameters: [String: AnyObject] { get }
+    var headers: [String: String] { get }
 
     var mockData: AnyObject? { get }
     var mockWaitTime: Int { get }
@@ -20,6 +21,9 @@ public protocol RequestType {
 // Default values
 public extension RequestType {
     var parameters: [String: AnyObject] {
+        return [:]
+    }
+    var headers: [String: String] {
         return [:]
     }
     var mockData: AnyObject? {
@@ -55,6 +59,10 @@ public extension RequestType {
 
         if !method.isQueryParameter {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+
+        for (field, value) in headers {
+            request.setValue(value, forHTTPHeaderField: field)
         }
     }
 
