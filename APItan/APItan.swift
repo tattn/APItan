@@ -22,24 +22,24 @@ public enum HTTPMethod: String {
 
 public final class APItan {
 
-    static let session: NSURLSession = {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+    static let session: URLSession = {
+        let config = URLSessionConfiguration.default
         // タイムアウト設定
         config.timeoutIntervalForRequest = 30
         config.timeoutIntervalForResource = 120
 
-        return NSURLSession(configuration: config)
+        return URLSession(configuration: config)
     }()
 
-    private typealias Task = (request: RequestType, task: NSURLSessionDataTask)
-    private static var tasks = [Task]()
+    fileprivate typealias Task = (request: RequestType, task: URLSessionDataTask)
+    fileprivate static var tasks = [Task]()
 
-    public static func send(request request: RequestType, completion: (Result<AnyObject>) -> Void) {
+    public static func send(request: RequestType, completion: @escaping (Result<Any>) -> Void) {
         if let mockData = request.mockData {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            DispatchQueue.global(qos: .default).async {
                 usleep(UInt32(request.mockWaitTime * 1000))
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion(.Success(mockData))
+                DispatchQueue.main.async {
+                    completion(.success(mockData))
                 }
             }
             return
@@ -47,40 +47,40 @@ public final class APItan {
 
         do {
             guard let urlRequest = request.createRequest() else {
-                throw APIError.URLError("Bad URL")
+                throw APIError.urlError("Bad URL")
             }
 
             let taskIndex = tasks.count
 
-            let task = session.dataTaskWithRequest(urlRequest) { data, response, error in
+            let task = session.dataTask(with: urlRequest, completionHandler: { data, response, error in
                 if tasks.indices ~= taskIndex {
-                    tasks.removeAtIndex(taskIndex)
+                    tasks.remove(at: taskIndex)
                 }
                 do {
                     guard let data = data else {
-                        if error?.code == NSURLErrorCancelled {
-                            throw APIError.Cancelled("Cancelled to request")
+                        if error?._code == NSURLErrorCancelled {
+                            throw APIError.cancelled("Cancelled to request")
                         } else {
-                            throw APIError.JSONError("Failed to get a data")
+                            throw APIError.jsonError("Failed to get a data")
                         }
                     }
 
-                    let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
 
-                    self.completionOnMainThread(.Success(json), completion: completion)
+                    self.completionOnMainThread(.success(json), completion: completion)
                 } catch let error as NSError {
-                    self.completionOnMainThread(.Failure(error), completion: completion)
+                    self.completionOnMainThread(.failure(error), completion: completion)
                 }
-            }
+            }) 
             tasks.append(Task(request, task))
             task.resume()
 
         } catch let error as NSError {
-            self.completionOnMainThread(.Failure(error), completion: completion)
+            self.completionOnMainThread(.failure(error), completion: completion)
         }
     }
 
-    public static func send(requests requests: [RequestType], isSeries: Bool = false, completion: ([Result<AnyObject>]) -> Void) {
+    public static func send(requests: [RequestType], isSeries: Bool = false, completion: @escaping ([Result<Any>]) -> Void) {
         if isSeries {
             sendInSeries(requests: requests, completion: completion)
         } else {
@@ -88,27 +88,27 @@ public final class APItan {
         }
     }
 
-    private static func sendInParallel(requests requests: [RequestType], completion: ([Result<AnyObject>]) -> Void) {
-        var results: [Result<AnyObject>] = Array(count: requests.count, repeatedValue: Result.Failure(APIError.Unknown("")))
+    fileprivate static func sendInParallel(requests: [RequestType], completion: @escaping ([Result<Any>]) -> Void) {
+        var results: [Result<Any>] = Array(repeating: Result.failure(APIError.unknown("")), count: requests.count)
 
-        let group = dispatch_group_create()
-        requests.enumerate().forEach { i, request in
-            dispatch_group_enter(group)
+        let group = DispatchGroup()
+        requests.enumerated().forEach { i, request in
+            group.enter()
             send(request: request) { result in
                 results[i] = result
-                dispatch_group_leave(group)
+                group.leave()
             }
         }
 
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
+        group.notify(queue: DispatchQueue.main) {
             completion(results)
         }
     }
 
-    private static func sendInSeries(requests requests: [RequestType], completion: ([Result<AnyObject>]) -> Void) {
-        var results = [Result<AnyObject>]()
+    fileprivate static func sendInSeries(requests: [RequestType], completion: @escaping ([Result<Any>]) -> Void) {
+        var results = [Result<Any>]()
 
-        func run(index: Int) {
+        func run(_ index: Int) {
             guard index < requests.count else {
                 completion(results)
                 return
@@ -125,20 +125,20 @@ public final class APItan {
         }
     }
 
-    public static func send(request request: RequestType) -> Promise {
+    public static func send(request: RequestType) -> Promise {
         return Promise(request: request)
     }
 
-    private static func completionOnMainThread(result: Result<AnyObject>, completion: (Result<AnyObject>) -> Void) {
-        NSOperationQueue.mainQueue().addOperationWithBlock {
+    private static func completionOnMainThread(_ result: Result<Any>, completion: @escaping (Result<Any>) -> Void) {
+        OperationQueue.main.addOperation {
             completion(result)
         }
     }
 
-    public static func cancel(request request: RequestType) {
-        while let target = tasks.enumerate().filter({ $0.element.request == request }).first {
+    public static func cancel(request: RequestType) {
+        while let target = tasks.enumerated().filter({ $0.element.request == request }).first {
             target.element.task.cancel()
-            tasks.removeAtIndex(target.index)
+            tasks.remove(at: target.offset)
         }
     }
 }

@@ -15,25 +15,25 @@ extension Dictionary {
 
         for (key, value) in self {
             let keyString = "\(key)"
-            let value: AnyObject = value as? AnyObject ?? ""
+            let value: String = value as? String ?? ""
 
-            if !keyString.isEmpty, let parameter = buildQuery(keyString, object: value) {
+            if !keyString.isEmpty, let parameter = buildQuery(key: keyString, object: value as AnyObject) {
                 parameters.append(parameter)
             }
         }
-        return parameters.joinWithSeparator("&")
+        return parameters.joined(separator: "&")
     }
 
     private func buildQuery(key: String, object: AnyObject) -> String? {
         if let value = object as? String {
-            return urlEncode(key, value: value)
+            return urlEncode(key: key, value: value)
         }
 
         var parameters = [String]()
         switch object {
         case let items as [AnyObject]:
             for item in items {
-                if let parameter = buildQuery("\(key)[]", object: item) {
+                if let parameter = buildQuery(key: "\(key)[]", object: item) {
                     parameters.append(parameter)
                 }
             }
@@ -41,20 +41,20 @@ extension Dictionary {
             for (itemKey, value) in items {
                 let newKey = "\(key)[\(itemKey)]"
                 if value is [AnyObject] || value is [String: AnyObject],
-                    let parameter = buildQuery(newKey, object: value) {
+                    let parameter = buildQuery(key: newKey, object: value) {
                     parameters.append(parameter)
-                } else if let parameter = urlEncode(newKey, value: "\(value)") {
+                } else if let parameter = urlEncode(key: newKey, value: "\(value)") {
                     parameters.append(parameter)
                 }
             }
         default: break
         }
-        return parameters.joinWithSeparator("&")
+        return parameters.joined(separator: "&")
     }
 
-    private func urlEncode(key: String, value: String) -> String? {
-        guard let encodedKey = key.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet()),
-            encodedValue = value.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet()) else {
+    fileprivate func urlEncode(key: String, value: String) -> String? {
+        guard let encodedKey = key.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
+            let encodedValue = value.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) else {
                 return nil
         }
         return "\(encodedKey)=\(encodedValue)"

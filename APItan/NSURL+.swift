@@ -8,10 +8,10 @@
 
 import Foundation
 
-extension NSURL {
+extension URL {
     func parameterDictionaries() -> [String: String] {
         var dictionary = [String: String]()
-        guard let components = NSURLComponents(string: absoluteString) else {
+        guard let components = URLComponents(string: absoluteString) else {
             return dictionary
         }
 

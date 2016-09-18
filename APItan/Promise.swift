@@ -9,11 +9,11 @@
 import Foundation
 
 private protocol InternalPromiseType: class {
-    var processes: [AnyObject -> RequestType?] { get set }
+    var processes: [(Any) -> RequestType?] { get set }
     var alwaysProcess: (() -> Void)? { get set }
-    var failProcess: (AnyObject? -> Void)? { get set }
+    var failProcess: ((Any?) -> Void)? { get set }
 
-    var error: AnyObject? { get set }
+    var error: Any? { get set }
     var isError: Bool { get set }
     var isFinished: Bool { get set }
 
@@ -24,10 +24,10 @@ public protocol PromiseType: class {
     associatedtype T
     associatedtype U
 
-    func next(completion: T -> U?) -> Self
-    func next(completion: T -> Void) -> Self
-    func always(completion: () -> Void) -> Self
-    func fail(completion: (AnyObject?) -> Void) -> Self
+    func next(completion: @escaping (T) -> U?) -> Self
+    func next(completion: @escaping (T) -> Void) -> Self
+    func always(completion: @escaping () -> Void) -> Self
+    func fail(completion: @escaping (Any?) -> Void) -> Self
 }
 
 private extension InternalPromiseType {
@@ -46,20 +46,20 @@ private extension InternalPromiseType {
 }
 
 private extension PromiseType {
-    private var internalSelf: InternalPromiseType {
+    var internalSelf: InternalPromiseType {
         return self as! InternalPromiseType
     }
 }
 
 public extension PromiseType {
-    public func next(completion: T -> Void) -> Self {
+    public func next(completion: @escaping (T) -> Void) -> Self {
         return next { obj -> U? in
             completion(obj)
             return nil
         }
     }
 
-    public func always(completion: () -> Void) -> Self {
+    public func always(completion: @escaping () -> Void) -> Self {
         if internalSelf.isFinished {
             completion()
         } else {
@@ -68,7 +68,7 @@ public extension PromiseType {
         return self
     }
 
-    public func fail(completion: (AnyObject?) -> Void) -> Self {
+    public func fail(completion: @escaping (Any?) -> Void) -> Self {
         if internalSelf.isError {
             internalSelf.isFinished = true
             completion(internalSelf.error)
@@ -81,16 +81,17 @@ public extension PromiseType {
 }
 
 public final class Promise: InternalPromiseType, PromiseType {
-    public typealias T = AnyObject
+
+    public typealias T = Any
     public typealias U = RequestType
 
-    private var nextRequests: [RequestType]?
+    fileprivate var nextRequests: [RequestType]?
 
-    var processes: [AnyObject -> RequestType?] = []
+    var processes: [(Any) -> RequestType?] = []
     var alwaysProcess: (() -> Void)?
-    var failProcess: (AnyObject? -> Void)?
+    var failProcess: ((Any?) -> Void)?
 
-    var error: AnyObject?
+    var error: Any?
     var isError = false
     var isFinished = false
 
@@ -98,7 +99,7 @@ public final class Promise: InternalPromiseType, PromiseType {
         nextRequests = [request]
     }
 
-    public func next(completion: AnyObject -> RequestType?) -> Promise {
+    public func next(completion: @escaping (Any) -> RequestType?) -> Self {
         guard !isError else { return self }
 
         if let nextRequest = nextRequests?.first {
@@ -110,10 +111,10 @@ public final class Promise: InternalPromiseType, PromiseType {
         return self
     }
 
-    private func runProcess(request request: RequestType, completion: AnyObject -> RequestType?) {
+    private func runProcess(request: RequestType, completion: @escaping (Any) -> RequestType?) {
         APItan.send(request: request) { result in
             switch result {
-            case .Success(let json):
+            case .success(let json):
                 switch completion(json) {
                 case nil:
                     self.isFinished = true
@@ -121,7 +122,7 @@ public final class Promise: InternalPromiseType, PromiseType {
                     self.nextProcess(request: request)
                     return
                 }
-            case .Failure(let error):
+            case .failure(let error):
                 self.error = error as NSError
             }
 
@@ -129,7 +130,7 @@ public final class Promise: InternalPromiseType, PromiseType {
         }
     }
 
-    private func nextProcess(request request: RequestType?) {
+    private func nextProcess(request: RequestType?) {
         guard !isFinished, let request = request else {
             finish()
             return
@@ -145,6 +146,6 @@ public final class Promise: InternalPromiseType, PromiseType {
 
 private extension Array {
     mutating func shift() -> Element? {
-        return isEmpty ? nil : self.removeAtIndex(startIndex)
+        return isEmpty ? nil : self.remove(at: startIndex)
     }
 }

@@ -20,21 +20,21 @@ public protocol ResultType {
 }
 
 public enum Result<T>: ResultType {
-    case Success(T)
-    case Failure(ErrorType)
+    case success(T)
+    case failure(Error)
 
     public var value: T? {
         switch self {
-        case .Success(let value):
+        case .success(let value):
             return value
         default:
             return nil
         }
     }
 
-    public var error: ErrorType? {
+    public var error: Error? {
         switch self {
-        case .Failure(let error):
+        case .failure(let error):
             return error
         default:
             return nil
@@ -43,7 +43,7 @@ public enum Result<T>: ResultType {
 
     public var isSuccess: Bool {
         switch self {
-        case .Success(_):
+        case .success(_):
             return true
         default:
             return false

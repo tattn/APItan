@@ -15,22 +15,22 @@ private let domain = "com.github.tattn.apitan"
 
  - JSONError: JSON関係のエラー
  */
-public enum APIError: ErrorType {
-    case JSONError(String)
-    case URLError(String)
-    case Cancelled(String)
-    case Unknown(String)
+public enum APIError: Error {
+    case jsonError(String)
+    case urlError(String)
+    case cancelled(String)
+    case unknown(String)
 
     var error: NSError {
         switch self {
-        case .JSONError(let message):
-            return self.createError(10000, message: message)
-        case .URLError(let message):
-            return self.createError(10001, message: message)
-        case .Cancelled(let message):
-            return self.createError(10002, message: message)
-        case .Unknown(let message):
-            return self.createError(50000, message: message)
+        case .jsonError(let message):
+            return self.createError(code: 10000, message: message)
+        case .urlError(let message):
+            return self.createError(code: 10001, message: message)
+        case .cancelled(let message):
+            return self.createError(code: 10002, message: message)
+        case .unknown(let message):
+            return self.createError(code: 50000, message: message)
         }
     }
 

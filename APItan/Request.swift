@@ -35,26 +35,26 @@ public extension RequestType {
 }
 
 public extension RequestType {
-    public func createRequest() -> NSURLRequest? {
-        guard let url = NSURL(string: urlWithParameters) else { return nil }
+    public func createRequest() -> URLRequest? {
+        guard let url = URL(string: urlWithParameters) else { return nil }
 
-        let request = NSMutableURLRequest(URL: url, cachePolicy: .ReloadIgnoringLocalCacheData, timeoutInterval: 10.0)
-        request.HTTPMethod = method.rawValue
+        let request = NSMutableURLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10.0)
+        request.httpMethod = method.rawValue
 
-        setHTTPHeaders(request)
+        setHTTPHeaders(request: request)
 
         if let body = createBody() {
-            request.HTTPBody = body
+            request.httpBody = body
         }
 
-        return request
+        return request as URLRequest
     }
 
     public var urlWithParameters: String {
         return method.isQueryParameter ? "\(path)?\(parameters.stringFromHttpParameters())" : path
     }
 
-    private func setHTTPHeaders(request: NSMutableURLRequest) {
+    fileprivate func setHTTPHeaders(request: NSMutableURLRequest) {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
 
         if !method.isQueryParameter {
@@ -66,10 +66,10 @@ public extension RequestType {
         }
     }
 
-    private func createBody() -> NSData? {
+    fileprivate func createBody() -> Data? {
         guard !method.isQueryParameter else { return nil }
 
-        guard let body = self.serializeJSON(parameters) else {
+        guard let body = self.serializeJSON(data: parameters) else {
             print("NSJSONSerialization error")
             return nil
         }
@@ -77,9 +77,9 @@ public extension RequestType {
         return body
     }
 
-    private func serializeJSON(data: [String: AnyObject]) -> NSData? {
+    fileprivate func serializeJSON(data: [String: AnyObject]) -> Data? {
         do {
-            return try NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions(rawValue: 2))
+            return try JSONSerialization.data(withJSONObject: data, options: JSONSerialization.WritingOptions(rawValue: 2))
         } catch {
             return nil
         }
