@@ -12,7 +12,9 @@ github "tattn/APItan"
 
 ### CocoaPods
 
-not yet...
+```
+pod 'APItan'
+```
 
 ## Examples
 
